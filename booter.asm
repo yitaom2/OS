@@ -1,12 +1,21 @@
 mov ah, 0x0e
-mov al, 'H'
+
+mov bp, 0x8000
+mov sp, bp
+
+push 'A'
+push 'B'
+push 'C'
+
+pop bx
+mov al, bl
 int 0x10
-mov al, 'e'
+
+pop bx
+mov al, bl
 int 0x10
-mov al, 'l'
-int 0x10
-int 0x10
-mov al, 'o'
+
+mov al, [0x8000]
 int 0x10
 
 jmp $
