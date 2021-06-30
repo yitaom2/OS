@@ -1,9 +1,22 @@
-#include "../drivers/ports.h"
+#include "../cpu/ports.h"
 #include "../cpu/isr.h"
+#include "kernel.h"
+#include "../libc/string.h"
 
 void main() {
   isr_install();
-  asm volatile("sti");
-  // init_timer(5);
-  init_keyboard();
+  irq_install();
+  kprint("\n"
+    "Type something, it will go through the kernel\n"
+        "Type END to halt the CPU\n> ");
+}
+
+void user_input(char *input) {
+    if (strcmp(input, "END") == 0) {
+        kprint("Stopping the CPU. Bye!\n");
+        asm volatile("hlt");
+    }
+    kprint("You said: ");
+    kprint(input);
+    kprint("\n> ");
 }
