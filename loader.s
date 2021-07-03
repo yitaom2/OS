@@ -1,5 +1,5 @@
 .set MAGIC, 0x1badb002
-.set FLAG, (1<<0 | 1<<1)
+.set FLAGS, (1<<0 | 1<<1)
 .set CHECKSUM, -(MAGIC + FLAGS)
 
 .section .multiboot
@@ -13,8 +13,8 @@
 
 loader:
     mov $kernelStack, %esp
-    push $eax
-    push $ebx
+    push %eax
+    push %ebx
     call kernelMain
 
 _stop:
