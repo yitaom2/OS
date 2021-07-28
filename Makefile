@@ -1,9 +1,9 @@
 GPPPARAMS = -m32 -fno-use-cxa-atexit -nostdlib -fno-builtin -fno-rtti -fno-exceptions -fno-leading-underscore
 ASPARAMS = --32
-OBJECTS = loader.o kernel.o
+OBJECTS = loader.o gdt.o kernel.o
 LDPARAMS = -melf_i386
 
-all: mykernel.bin clean
+all: install clean
 
 %.o: %.cpp
 	g++ $(GPPPARAMS) -o $@ -c $<
