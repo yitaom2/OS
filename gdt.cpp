@@ -4,7 +4,7 @@ GlobalDescriptorTable::GlobalDescriptorTable()
 :nullSegmentDescriptor(0,0,0),
 unusedSegmentDescriptor(0,0,0),
 dataSegmentDescriptor(0,64*1024*1024,0x9A),
-codeSegmentDescriptor(64*1024*1024,64*1024*1024,0x92)
+codeSegmentDescriptor(0,64*1024*1024,0x92)
 {
     uint32_t i[2];
     i[0] = (uint32_t)this;
@@ -50,11 +50,11 @@ GlobalDescriptorTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint3
     target[6] |= (limit >> 16);
     // assign base pointer    
     target[2] = base & 0xFF;
-    base <<= 8;
+    base >>= 8;
     target[3] = base & 0xFF;
-    base <<= 8;
+    base >>= 8;
     target[4] = base & 0xFF;
-    base <<= 8;
+    base >>= 8;
     target[7] = base & 0xFF;
     // assign flags
     target[5] = type;
@@ -65,11 +65,11 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Base()
     uint8_t* target = (uint8_t*)this;
     uint32_t base = target[7];
     base <<= 8;
-    base |= target[4];
+    base += target[4];
     base <<= 8;
-    base |= target[3];
+    base += target[3];
     base <<= 8;
-    base |= target[2];
+    base += target[2];
     return base;
 }
 
@@ -78,9 +78,9 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Limit()
     uint8_t* target = (uint8_t*)this;
     uint32_t limit = target[6] & 0xF;
     limit <<= 8;
-    limit |= target[1];
+    limit += target[1];
     limit <<= 8;
-    limit |= target[0];
+    limit += target[0];
 
     if (target[6] & 0x40 == 0x40) {
         return limit;

@@ -18,16 +18,16 @@ class GlobalDescriptorTable {
                 uint32_t Limit();
         } __attribute__((packed));
         
-        GlobalDescriptorTable();
-        ~GlobalDescriptorTable();
-        uint16_t DataSegmentDescriptor();
-        uint16_t CodeSegmentDescriptor();
-
-    private:
         SegmentDescriptor nullSegmentDescriptor;
         SegmentDescriptor unusedSegmentDescriptor;
         SegmentDescriptor dataSegmentDescriptor;
         SegmentDescriptor codeSegmentDescriptor;
+
+    public:
+        GlobalDescriptorTable();
+        ~GlobalDescriptorTable();
+        uint16_t DataSegmentDescriptor();
+        uint16_t CodeSegmentDescriptor();
 };
 
 #endif
