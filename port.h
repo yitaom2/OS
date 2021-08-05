@@ -6,7 +6,7 @@
     class Port 
     {
     protected:
-        uint16_t port_number;
+        uint16_t portnumber;
         Port(uint16_t portnumber);
         ~Port();
     };

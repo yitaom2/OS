@@ -7,8 +7,8 @@
 
 
 .macro HandleException num
-.global _ZN16InterruptManager26HandleException\num\()Ev
-_ZN16InterruptManager26HandleException\num\()Ev:
+.global _ZN16InterruptManager16HandleException\num\()Ev
+_ZN16InterruptManager16HandleException\num\()Ev:
     movb $\num, (interruptnumber)
     jmp int_bottom
 .endm
@@ -40,8 +40,6 @@ int_bottom:
     popl %es
     popl %ds
     popa
-
-    iret
 
 _ZN16InterruptManager22IgnoreInterruptRequestEv:
     iret

@@ -37,25 +37,21 @@ GlobalDescriptorTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint3
         target[6] = 0x40;
     } else {
         if (limit & 0xFFF == 0xFFF) {
-            limit >>= 12;
+            limit = limit >> 12;
         } else {
             // the actual limit is smaller than desired
-            limit >>= 12;
-            limit -= 1;
+            limit = (limit >> 12) - 1;
         }
         target[6] = 0xC0;
     }
     target[0] = limit & 0xFF;
     target[1] = (limit >> 8) & 0xFF;
-    target[6] |= (limit >> 16);
+    target[6] |= (limit >> 16) & 0xF;
     // assign base pointer    
     target[2] = base & 0xFF;
-    base >>= 8;
-    target[3] = base & 0xFF;
-    base >>= 8;
-    target[4] = base & 0xFF;
-    base >>= 8;
-    target[7] = base & 0xFF;
+    target[3] = (base >> 8) & 0xFF;
+    target[4] = (base >> 16) & 0xFF;
+    target[7] = (base >> 24) & 0xFF;
     // assign flags
     target[5] = type;
 }
@@ -64,12 +60,9 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Base()
 {
     uint8_t* target = (uint8_t*)this;
     uint32_t base = target[7];
-    base <<= 8;
-    base += target[4];
-    base <<= 8;
-    base += target[3];
-    base <<= 8;
-    base += target[2];
+    base = (base << 8) + target[4];
+    base = (base << 8) + target[3];
+    base = (base << 8) + target[2];
     return base;
 }
 
@@ -77,16 +70,14 @@ uint32_t GlobalDescriptorTable::SegmentDescriptor::Limit()
 {
     uint8_t* target = (uint8_t*)this;
     uint32_t limit = target[6] & 0xF;
-    limit <<= 8;
-    limit += target[1];
-    limit <<= 8;
-    limit += target[0];
+    limit = (limit << 8) + target[1];
+    limit = (limit << 8) + target[0];
 
-    if (target[6] & 0x40 == 0x40) {
-        return limit;
-    } else {
-        return (limit<<12)|0xFFF;
+    if (target[6] & 0xC0 == 0xC0) {
+        limit = (limit<<12)|0xFFF;
     }
+
+    return limit;
 }
 
 
