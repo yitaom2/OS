@@ -6,7 +6,7 @@ LDPARAMS = -melf_i386
 all: install clean
 
 %.o: %.cpp
-	g++ $(GPPPARAMS) -o $@ -c $<
+	gcc $(GPPPARAMS) -c -o $@ $<
 
 %.o: %.s
 	as $(ASPARAMS) -o $@ $<
