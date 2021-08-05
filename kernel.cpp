@@ -52,6 +52,6 @@ extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
 
     InterruptManager interrupts(&gdt);
 
-//    interrupts.Activate();
+    interrupts.Activate();
     while(1);
 }

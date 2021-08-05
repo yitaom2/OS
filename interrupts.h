@@ -33,10 +33,10 @@ class InterruptManager
             uint8_t descriptType
         );
 
-        Port8BitSlow picMasterCommand;
-        Port8BitSlow picMasterData;
-        Port8BitSlow picSlaveCommand;
-        Port8BitSlow picSlaveData;
+        Port8Bit picMasterCommand;
+        Port8Bit picMasterData;
+        Port8Bit picSlaveCommand;
+        Port8Bit picSlaveData;
 
     public:
 

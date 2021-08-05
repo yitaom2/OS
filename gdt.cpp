@@ -3,8 +3,8 @@
 GlobalDescriptorTable::GlobalDescriptorTable()
 :nullSegmentDescriptor(0,0,0),
 unusedSegmentDescriptor(0,0,0),
-dataSegmentDescriptor(0,64*1024*1024,0x9A),
-codeSegmentDescriptor(0,64*1024*1024,0x92)
+dataSegmentDescriptor(0,64*1024*1024,0x92),
+codeSegmentDescriptor(0,64*1024*1024,0x9A)
 {
     uint32_t i[2];
     i[0] = (uint32_t)this;
