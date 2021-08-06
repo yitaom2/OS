@@ -2,6 +2,16 @@
 #include "gdt.h"
 #include "interrupts.h"
 
+void int_to_ascii(int n, char str[]) {
+    int i = 0;
+    do {
+        str[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+
+    str[i] = '\0';
+}
+
+
 void printf(char * str) {
 	uint16_t* videoMemory = (uint16_t*)0xb8000;
 
@@ -35,6 +45,8 @@ void printf(char * str) {
 }
 
 
+
+
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;
@@ -50,7 +62,12 @@ extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
     printf("Hello World\n");
     GlobalDescriptorTable gdt;
 
+    char mystr[] = "EEEEEEEE";
+    int_to_ascii(gdt.CodeSegmentDescriptor(), mystr);
+    printf(mystr);
+
     InterruptManager interrupts(&gdt);
+
 
     interrupts.Activate();
     while(1);

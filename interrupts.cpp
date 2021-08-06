@@ -33,9 +33,9 @@ picSlaveData(0xA1)
     for (uint16_t i = 0; i < 256; i++) {
         SetInterruptDescriptorTableEntry(i, CodeSegment, &IgnoreInterruptRequest, 0, IDT_INTERRUPT_GATE);
     }
-    SetInterruptDescriptorTableEntry(0x20, CodeSegment, &HandleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
-    SetInterruptDescriptorTableEntry(0x21, CodeSegment, &HandleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);
-
+//    SetInterruptDescriptorTableEntry(0x20, CodeSegment, &HandleInterruptRequest0x00, 0, IDT_INTERRUPT_GATE);
+//    SetInterruptDescriptorTableEntry(0x21, CodeSegment, &HandleInterruptRequest0x01, 0, IDT_INTERRUPT_GATE);
+//
     picMasterCommand.Write(0x11);
     picSlaveCommand.Write(0x11);
 
@@ -54,7 +54,7 @@ picSlaveData(0xA1)
     interruptDescriptorTablePointer idt;
     idt.size = 256 * sizeof(GateDescriptor) - 1;
     idt.base = (uint32_t)interruptDescriptorTable;
-    asm volatile("lidt %0" : : "m" (idt));
+    asm volatile("lidtl %0" : : "m" (idt));
 }
 InterruptManager::~InterruptManager()
 {

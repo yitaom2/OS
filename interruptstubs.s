@@ -42,6 +42,8 @@ int_bottom:
     popa
 
 _ZN16InterruptManager22IgnoreInterruptRequestEv:
+    cli
+    sti
     iret
 
 .data
